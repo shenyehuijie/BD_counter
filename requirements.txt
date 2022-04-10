@@ -1,0 +1,2 @@
+streamlit==1.5.1
+jpholiday==0.1.8
