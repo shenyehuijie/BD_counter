@@ -30,6 +30,27 @@ def is_business_day(dt_date):
         return True
 
 
+def ret_bussinessdays_arr(lead_days, target_date_dt):
+    bussinessdays_arr = []
+    unit_day = datetime.timedelta(days=1)
+
+    while len(bussinessdays_arr) < lead_days:
+        target_date_dt = target_date_dt + unit_day
+        if is_national_holiday(target_date_dt):
+            continue
+
+        if is_sun_or_sat(target_date_dt):
+            continue
+
+        if is_nenmatu(target_date_dt):
+            continue
+
+        else:
+            bussinessdays_arr.append(target_date_dt)
+
+    return bussinessdays_arr[-1]
+
+
 def cal_futaku_date(lead_days, target_date_dt):
     bussinessdays_arr = []
     unit_day = datetime.timedelta(days=1)
@@ -41,19 +62,6 @@ def cal_futaku_date(lead_days, target_date_dt):
             continue
     return bussinessdays_arr[-1]
 
-
-def cal_futaku_date2(lead_days, target_date2_dt):
-    bussinessdays_arr = []
-    unit_day = datetime.timedelta(days=1)
-
-    while len(bussinessdays_arr) < lead_days:
-        target_date2_dt = target_date2_dt + unit_day
-        if is_business_day(target_date2_dt):
-             bussinessdays_arr.append(target_date2_dt)
-        else:
-            continue
-
-    return bussinessdays_arr[-1]
 
 def total_business_days(today_dt, target_day_dt):
     date = today_dt
@@ -83,19 +91,10 @@ def main():
     'リードタイム：', lead_days, '営業日必要'
     '--------------------------------------------------------------------------------------'
     today_dt = datetime.datetime.today()
-    today_str= datetime.datetime.strftime(today_dt, '%Y%m%d')
+    leaddays_after_today = ret_bussinessdays_arr(lead_days, today_dt)
+    leaddays_after_today_str = datetime.datetime.strftime(
+        leaddays_after_today, '%Y年%m月%d日')
 
-
-
-    target_date2 = st.text_input(
-        'ターゲット日を指定しそこから工期初日を割り出す場合：　　(↓yyyymmdd形式で工期初日を指定)', value=today_str)
-    target_date2_dt = datetime.datetime.strptime(target_date2, '%Y%m%d')
-    kouki_date2 = cal_futaku_date2(lead_days, target_date2_dt)
-    target_date2_str = datetime.datetime.strftime(target_date2_dt, '%Y年%m月%d日')
-    kouki_date2_str = datetime.datetime.strftime(kouki_date2, '%Y年%m月%d日')
-    '付託の日：　　', target_date2_str
-    '工期初日：　　', kouki_date2_str, '　　以降が推奨されます。'
-    '--------------------------------------------------------------------------------------'
     ##来年度4月1日を初期値に指定##
     month_today = today_dt.month
     year_today = today_dt.year
@@ -106,6 +105,9 @@ def main():
         next_year = datetime.date(year=year_today, month=4, day=1)
     next_year_str = datetime.datetime.strftime(next_year, '%Y%m%d')
     #################
+
+    '本日付託の場合：　　', leaddays_after_today_str, '　　以降の工期開始日が推奨されます。'
+    '--------------------------------------------------------------------------------------'
     target_date = st.text_input(
         '工期初日から付託期日を算出する場合：　　(↓yyyymmdd形式で工期初日を指定)', value=next_year_str)
     target_date_dt = datetime.datetime.strptime(target_date, '%Y%m%d')
