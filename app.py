@@ -132,6 +132,9 @@ def main():
     futaku_date_str = datetime.datetime.strftime(futaku_date, '%Y年%m月%d日')
     target_date_str = datetime.datetime.strftime(target_date_dt, '%Y年%m月%d日')
     counter = total_business_days(today_dt, target_date_dt)
+    date_prop0 =  ret_date_prop(target_date)
+
+    '指定日は：　　', date_prop0
     '工期初日：　　', target_date_str, '　　まで', counter, '営業日'
     '請負付託：　　', futaku_date_str, '　　までの実施が推奨されます。'
     '--------------------------------------------------------------------------------------'
