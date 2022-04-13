@@ -69,6 +69,21 @@ def total_business_days(today_dt, target_day_dt):
 
     return counter
 
+def ret_date_prop(target_date2):
+    target_date2_dt = datetime.datetime.strptime(target_date2, '%Y%m%d')
+
+    date_prop = '国民の祝日、または土日、年末年始に該当していません'
+
+    if jpholiday.is_holiday_name(target_date2_dt):
+        date_prop = jpholiday.is_holiday_name(target_date2_dt) + 'になっています。'
+
+    elif is_sun_or_sat(target_date2_dt):
+        date_prop = '土日になっています！！'
+
+    elif is_nenmatu(target_date2_dt):
+        date_prop = '年末年始になっています！！'
+
+    return date_prop
 
 def main():
     st.title('営業日カウンター Produced by KJ')
@@ -93,6 +108,9 @@ def main():
     kouki_date2 = cal_futaku_date2(lead_days, target_date2_dt)
     target_date2_str = datetime.datetime.strftime(target_date2_dt, '%Y年%m月%d日')
     kouki_date2_str = datetime.datetime.strftime(kouki_date2, '%Y年%m月%d日')
+    date_prop =  ret_date_prop(target_date2)
+
+    '指定日は：　　', date_prop
     '付託の日：　　', target_date2_str
     '工期初日：　　', kouki_date2_str, '　　以降が推奨されます。'
     '--------------------------------------------------------------------------------------'
