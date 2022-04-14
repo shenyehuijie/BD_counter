@@ -14,6 +14,13 @@ def is_sun_or_sat(dt_date):
         return False
 
 
+def which_sun_or_sat(dt_date):
+    if dt_date.weekday() == 5:
+        return '土曜日'
+    elif dt_date.weekday() == 6:
+        return '日曜日'
+
+
 def is_nenmatu(dt_date):
     today_str = dt_date.strftime('%m%d')
     nemmatsu = ['1229', '1230', '1231', '0101', '0102', '0103']
@@ -49,11 +56,12 @@ def cal_futaku_date2(lead_days, target_date2_dt):
     while len(bussinessdays_arr) < lead_days:
         target_date2_dt = target_date2_dt + unit_day
         if is_business_day(target_date2_dt):
-             bussinessdays_arr.append(target_date2_dt)
+            bussinessdays_arr.append(target_date2_dt)
         else:
             continue
 
     return bussinessdays_arr[-1]
+
 
 def total_business_days(today_dt, target_day_dt):
     date = today_dt
@@ -69,6 +77,7 @@ def total_business_days(today_dt, target_day_dt):
 
     return counter
 
+
 def ret_date_prop(target_date2):
     target_date2_dt = datetime.datetime.strptime(target_date2, '%Y%m%d')
 
@@ -77,13 +86,14 @@ def ret_date_prop(target_date2):
     if jpholiday.is_holiday_name(target_date2_dt):
         date_prop = jpholiday.is_holiday_name(target_date2_dt) + 'になっています。'
 
-    elif is_sun_or_sat(target_date2_dt):
-        date_prop = '土日になっています！！'
+    elif which_sun_or_sat(target_date2_dt):
+        date_prop = which_sun_or_sat(target_date2_dt) + 'になっています！！'
 
     elif is_nenmatu(target_date2_dt):
         date_prop = '年末年始になっています！！'
 
     return date_prop
+
 
 def main():
     st.title('営業日カウンター Produced by KJ')
@@ -98,9 +108,7 @@ def main():
     'リードタイム：', lead_days, '営業日必要'
     '--------------------------------------------------------------------------------------'
     today_dt = datetime.datetime.today()
-    today_str= datetime.datetime.strftime(today_dt, '%Y%m%d')
-
-
+    today_str = datetime.datetime.strftime(today_dt, '%Y%m%d')
 
     target_date2 = st.text_input(
         'ターゲット日を指定しそこから工期初日を割り出す場合：　　(↓yyyymmdd形式で工期初日を指定)', value=today_str)
@@ -108,7 +116,7 @@ def main():
     kouki_date2 = cal_futaku_date2(lead_days, target_date2_dt)
     target_date2_str = datetime.datetime.strftime(target_date2_dt, '%Y年%m月%d日')
     kouki_date2_str = datetime.datetime.strftime(kouki_date2, '%Y年%m月%d日')
-    date_prop =  ret_date_prop(target_date2)
+    date_prop = ret_date_prop(target_date2)
 
     '指定日は：　　', date_prop
     '付託の日：　　', target_date2_str
@@ -132,7 +140,7 @@ def main():
     futaku_date_str = datetime.datetime.strftime(futaku_date, '%Y年%m月%d日')
     target_date_str = datetime.datetime.strftime(target_date_dt, '%Y年%m月%d日')
     counter = total_business_days(today_dt, target_date_dt)
-    date_prop0 =  ret_date_prop(target_date)
+    date_prop0 = ret_date_prop(target_date)
 
     '指定日は：　　', date_prop0
     '工期初日：　　', target_date_str, '　　まで', counter, '営業日'
