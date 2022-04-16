@@ -119,7 +119,7 @@ def main():
     today_str = datetime.datetime.strftime(today_dt, '%Y%m%d')
 
     target_date2 = st.text_input(
-        'ターゲット日を指定しそこから工期初日を割り出す場合：　　(↓yyyymmdd形式で工期初日を指定)', value=today_str)
+        '指定日から工期初日を割り出す場合：　　(↓yyyymmdd形式で工期初日を指定、初期値：本日）', value=today_str)
     target_date2_dt = datetime.datetime.strptime(target_date2, '%Y%m%d')
     kouki_date2 = cal_futaku_date2(lead_days, target_date2_dt)
     target_date2_str = datetime.datetime.strftime(target_date2_dt, '%Y年%m月%d日')
@@ -138,7 +138,7 @@ def main():
 
     '付託の日：　　', target_date2_str
     st.write(
-        '工期初日：　　'f'<span style="color:mediumseagreen">{kouki_date2_str}</span>', '　　以降が推奨されます。', unsafe_allow_html=True)
+        '工期初日：　　'f'<span style="color:mediumseagreen">{kouki_date2_str}</span>', '　　以降が推奨されます', unsafe_allow_html=True)
     '--------------------------------------------------------------------------------------'
     #####################来年度4月1日を初期値に指定#######################
     month_today = today_dt.month
@@ -172,7 +172,7 @@ def main():
 
     '工期初日：　　', target_date_str, '　　まで', counter, '営業日'
     st.write(
-        '請負付託：　　'f'<span style="color:mediumseagreen">{futaku_date_str}</span>', '　　までの実施が推奨されます。', unsafe_allow_html=True)
+        '請負付託：　　'f'<span style="color:mediumseagreen">{futaku_date_str}</span>', '　　までの実施が推奨されます', unsafe_allow_html=True)
     '--------------------------------------------------------------------------------------'
 
 
