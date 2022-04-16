@@ -162,10 +162,10 @@ def main():
 
     if prop_ID0 == 'weekday':
         st.write(
-            '指定日は：　　'f'{date_prop0}', '　　になっています', unsafe_allow_html=False)
+            '指定日は：　　', date_prop0, '　　になっています')
     elif prop_ID0 == 'holiday':
         st.write(
-            '指定日は：　　'f'<span style="color:orengered">{date_prop0}</span>', '　　になっています', unsafe_allow_html=True)
+            '指定日は：　　'f'<span style="color:orangered">{date_prop0}</span>', '　　になっています', unsafe_allow_html=True)
     elif prop_ID0 == 'sat':
         st.write(
             '指定日は：　　'f'<span style="color:dodgerblue">{date_prop0}</span>', '　　になっています', unsafe_allow_html=True)
