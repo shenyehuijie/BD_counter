@@ -119,7 +119,7 @@ def main():
     today_str = datetime.datetime.strftime(today_dt, '%Y%m%d')
 
     target_date2 = st.text_input(
-        '指定日から工期初日を割り出す場合：　　(↓yyyymmdd形式で工期初日を指定、初期値：本日）', value=today_str)
+        '指定日から工期初日を割り出す場合：　　(↓yyyymmdd形式で付託予定日を指定、初期値：本日）', value=today_str)
     target_date2_dt = datetime.datetime.strptime(target_date2, '%Y%m%d')
     kouki_date2 = cal_futaku_date2(lead_days, target_date2_dt)
     target_date2_str = datetime.datetime.strftime(target_date2_dt, '%Y年%m月%d日')
@@ -151,7 +151,7 @@ def main():
     next_year_str = datetime.datetime.strftime(next_year, '%Y%m%d')
     #############################################################
     target_date = st.text_input(
-        '工期初日から付託期日を割り出す場合：　　(↓yyyymmdd形式で工期初日を指定)', value=next_year_str)
+        '工期初日から付託期日を割り出す場合：　　(↓yyyymmdd形式で工期初日を指定、初期値：翌４月１日)', value=next_year_str)
     target_date_dt = datetime.datetime.strptime(target_date, '%Y%m%d')
 
     futaku_date = cal_futaku_date(lead_days, target_date_dt)
